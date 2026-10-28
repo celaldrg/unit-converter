@@ -931,6 +931,18 @@ kbd {
   background: var(--danger);
 }
 
+/* ---------- Very narrow screens (320 px) ---------- */
+
+@media (max-width: 359px) {
+  .unit-name {
+    padding-left: 4px;
+  }
+
+  .unit-table td.num {
+    font-size: 0.8125rem;
+  }
+}
+
 /* ---------- Wider screens ---------- */
 
 @media (hover: hover) and (pointer: fine) {
