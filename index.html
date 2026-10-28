@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unit Converter</title>
+  <meta name="description" content="Precise unit converter in the browser: 14 categories, a free-text line that understands “5 ft 3 in to cm”, favorites, recent conversions and an English or Turkish interface.">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Unit Converter">
+  <meta property="og:description" content="Precise unit converter: 14 categories, free-text queries like “5 ft 3 in to cm”, favorites and recents, in English and Turkish.">
+  <meta property="og:url" content="https://celaldrg.github.io/unit-converter/">
+  <meta property="og:image" content="https://celaldrg.github.io/unit-converter/docs/screenshot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231e293b'/%3E%3Cpath d='M16 24h30m-8-8 8 8-8 8M48 40H18m8-8-8 8 8 8' fill='none' stroke='%2393c5fd' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+          <rect x="0.5" y="0.5" width="39" height="39" rx="11" fill="#1e293b" stroke="#93c5fd" stroke-opacity="0.35"/>
+          <path d="M10 15h19m-5-5 5 5-5 5M30 25H11m5-5-5 5 5 5" fill="none" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="brand-text">
+          <h1 data-i18n="appTitle">Unit Converter</h1>
+          <p class="tagline" data-i18n="tagline">Precise conversions across 14 categories, typed or picked.</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button type="button" id="reset-btn" class="btn btn-quiet"><span data-icon="reset"></span><span data-i18n="reset">Reset</span></button>
+        <button type="button" id="lang-btn" class="btn btn-lang" data-i18n="langToggle" data-i18n-title="langToggleLabel">TR</button>
+      </div>
+    </header>
+
+    <div class="chips-wrap">
+      <div id="chips" class="chips" role="radiogroup" data-i18n-aria="categories"></div>
+    </div>
+
+    <main class="layout">
+      <div class="col">
+        <section class="card query-card">
+          <form id="query-form" class="query-form" autocomplete="off" novalidate>
+            <label for="query-input" class="section-title" data-i18n="queryLabel">Type a conversion</label>
+            <div class="query-row">
+              <span data-icon="search"></span>
+              <input id="query-input" name="query" class="query-input" type="text" enterkeyhint="go" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="query-status" data-i18n-placeholder="queryPlaceholder">
+              <button type="submit" class="btn btn-accent" data-i18n="convert">Convert</button>
+            </div>
+            <p id="query-status" class="query-status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="card converter" aria-labelledby="category-title">
+          <div class="card-head">
+            <div class="card-head-text">
+              <h2 id="category-title" class="card-title">Length</h2>
+              <p id="formula" class="formula"></p>
+            </div>
+            <button type="button" id="star-btn" class="icon-btn star" aria-pressed="false"><span data-icon="star"></span></button>
+          </div>
+          <div class="pair">
+            <div class="side" role="group" aria-labelledby="from-label">
+              <div class="side-head">
+                <span id="from-label" class="section-title" data-i18n="from">From</span>
+                <div class="side-tools">
+                  <button type="button" id="from-sign" class="icon-btn" data-i18n-aria="negate" data-i18n-title="negate"><span data-icon="sign"></span></button>
+                  <button type="button" id="from-copy" class="icon-btn copy-btn" data-i18n-title="copy"><span data-icon="copy"></span></button>
+                </div>
+              </div>
+              <label for="from-input" class="sr-only" data-i18n="amount">Amount</label>
+              <input id="from-input" name="from-amount" class="amount" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="from-error">
+              <label for="from-unit" class="sr-only" data-i18n="unit">Unit</label>
+              <select id="from-unit" name="from-unit" class="unit-select"></select>
+              <p id="from-error" class="field-error" hidden></p>
+            </div>
+            <button type="button" id="swap-btn" class="swap" data-i18n-aria="swap" data-i18n-title="swap"><span data-icon="swap"></span></button>
+            <div class="side" role="group" aria-labelledby="to-label">
+              <div class="side-head">
+                <span id="to-label" class="section-title" data-i18n="to">To</span>
+                <div class="side-tools">
+                  <button type="button" id="to-sign" class="icon-btn" data-i18n-aria="negate" data-i18n-title="negate"><span data-icon="sign"></span></button>
+                  <button type="button" id="to-copy" class="icon-btn copy-btn" data-i18n-title="copy"><span data-icon="copy"></span></button>
+                </div>
+              </div>
+              <label for="to-input" class="sr-only" data-i18n="amount">Amount</label>
+              <input id="to-input" name="to-amount" class="amount" type="text" inputmode="decimal" enterkeyhint="done" autocomplete="off" spellcheck="false" aria-describedby="to-error">
+              <label for="to-unit" class="sr-only" data-i18n="unit">Unit</label>
+              <select id="to-unit" name="to-unit" class="unit-select"></select>
+              <p id="to-error" class="field-error" hidden></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card lists">
+          <div class="list-block">
+            <div class="list-head">
+              <h2 class="section-title" data-i18n="favorites">Favorites</h2>
+            </div>
+            <div id="favorites" class="fav-list"></div>
+          </div>
+          <div class="list-block">
+            <div class="list-head">
+              <h2 id="recents-title" class="section-title" tabindex="-1" data-i18n="recents">Recent</h2>
+              <button type="button" id="clear-recents" class="btn btn-quiet btn-small" data-i18n="recentsClear">Clear</button>
+            </div>
+            <ol id="recents" class="recent-list"></ol>
+          </div>
+        </section>
+      </div>
+
+      <div class="col">
+        <section class="card table-card" aria-labelledby="table-title">
+          <div class="card-head">
+            <h2 id="table-title" class="card-title" data-i18n="tableTitle">All units</h2>
+            <button type="button" id="table-toggle" class="btn btn-quiet btn-small" aria-controls="table-wrap" aria-expanded="true"><span id="table-toggle-text">Hide</span><span data-icon="chevron"></span></button>
+          </div>
+          <div id="table-wrap" class="table-wrap">
+            <table class="unit-table">
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>MIT · <a href="https://github.com/celaldrg/unit-converter" data-i18n="footerSource">Source on GitHub</a></p>
+      <p id="kbd-hints" class="kbd-hints"></p>
+    </footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "unit-converter",
+  "version": "1.0.0",
+  "description": "Fast, precise unit converter in the browser: 14 categories, a free-text parser (\"5 ft 3 in to cm\"), English and Turkish.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}
